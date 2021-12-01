@@ -8,6 +8,9 @@ ifeq ($(CC),cc)
 CC:=$(CROSS-COMPILE)gcc
 endif
 LD:=$(CROSS-COMPILE)ld
+prefix ?= /usr/
+exec_prefix ?= ${prefix}
+bindir ?= ${exec_prefix}/bin
 
 QL_CM_SRC=QmiWwanCM.c GobiNetCM.c main.c MPQMUX.c QMIThread.c util.c qmap_bridge_mode.c mbim-cm.c device.c
 ifeq (1,1)
@@ -30,6 +33,8 @@ qmi-proxy:
 
 mbim-proxy:
 	$(CC) -Wall -s quectel-mbim-proxy.c  -o quectel-mbim-proxy -lpthread -ldl
+install:
+	install -D -m 755 quectel-CM $(DESTDIR)$(bindir)/quectel-CM
 
 clean:
 	rm -rf quectel-CM *~
